@@ -1,6 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://vqb6ytoeqw0p"]
 
 [ext_resource type="Script" path="res://Scripts/Sluggy.gd" id="1_6a0vb"]
+[ext_resource type="Shape3D" uid="uid://c0wpbi4x7oa3n" path="res://Scenes/slug_standard_collision.tres" id="2_3f2vg"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ngesx"]
 albedo_color = Color(0.0941176, 0.403922, 1, 1)
@@ -14,10 +15,8 @@ height = 0.6
 material = SubResource("StandardMaterial3D_ngesx")
 height = 0.2
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_y6yo0"]
-size = Vector3(0.617432, 0.645508, 0.626953)
-
 [node name="Sluggy" type="CharacterBody3D" groups=["player"]]
+collision_mask = 32
 script = ExtResource("1_6a0vb")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
@@ -29,7 +28,7 @@ mesh = SubResource("SphereMesh_e2338")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0779839, 0)
-shape = SubResource("BoxShape3D_y6yo0")
+shape = ExtResource("2_3f2vg")
 
 [node name="CamPivot" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.277406, 0)
@@ -37,3 +36,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.277406, 0)
 [node name="Camera3D" type="Camera3D" parent="CamPivot"]
 transform = Transform3D(1, 0, 0, 0, 0.906352, 0.422523, 0, -0.422523, 0.906352, 0, 1.87301, 3.74579)
 current = true
+
+[node name="BulletSpawnLocation" type="Marker3D" parent="."]
+
+[node name="BulletContainer" type="Node3D" parent="."]

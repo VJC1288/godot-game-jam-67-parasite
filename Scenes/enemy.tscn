@@ -8,7 +8,8 @@
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2582r"]
 albedo_color = Color(0.717647, 0.0901961, 0.0705882, 1)
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tat0t"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_pojn2"]
+size = Vector3(1, 2, 1)
 
 [sub_resource type="QuadMesh" id="QuadMesh_jsmgd"]
 size = Vector2(0.5, 0.5)
@@ -17,17 +18,22 @@ size = Vector2(0.5, 0.5)
 albedo_color = Color(1, 1, 0.462745, 1)
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_57ks5"]
-points = PackedVector3Array(1, 0, -1, 5, 0, -5, 5, 0, 5, 1, 0, 1, 1, -1, -1, 5, -1, 5, 5, -1, -5, 1, -1, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1qnro"]
-transparency = 1
-albedo_texture = ExtResource("2_4y7nx")
-billboard_mode = 1
+points = PackedVector3Array(1, 1, -1, 5, 2, -5, 5, 2, 5, 1, 1, 1, 1, -1, -1, 5, -2, 5, 5, -2, -5, 1, -1, 1)
 
 [sub_resource type="QuadMesh" id="QuadMesh_2j4j1"]
-material = SubResource("StandardMaterial3D_1qnro")
 
-[node name="Enemy" type="CharacterBody3D"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d04hk"]
+transparency = 1
+albedo_texture = ExtResource("2_4y7nx")
+emission_enabled = true
+emission = Color(0.831373, 0.447059, 0.498039, 1)
+emission_operator = 1
+emission_texture = ExtResource("2_4y7nx")
+billboard_mode = 1
+
+[node name="Enemy" type="CharacterBody3D" groups=["enemies"]]
+collision_layer = 2
+collision_mask = 36
 script = ExtResource("1_1fo1j")
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
@@ -37,7 +43,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_2582r")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-shape = SubResource("CapsuleShape3D_tat0t")
+shape = SubResource("BoxShape3D_pojn2")
 
 [node name="Face" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.39527, -0.507955)
@@ -49,15 +55,20 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 
 
 [node name="PlayerDetector" type="Area3D" parent="SightPivot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0)
+collision_layer = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SightPivot/PlayerDetector"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.47505, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.47505, 0, -1.77636e-15)
 shape = SubResource("ConvexPolygonShape3D_57ks5")
 
 [node name="Exclamation" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.48788, 0)
 visible = false
 mesh = SubResource("QuadMesh_2j4j1")
+surface_material_override/0 = SubResource("StandardMaterial3D_d04hk")
+
+[node name="SlugAttachPoint" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.22127, 0)
 
 [connection signal="body_entered" from="SightPivot/PlayerDetector" to="." method="_on_player_detector_body_entered"]
 [connection signal="body_exited" from="SightPivot/PlayerDetector" to="." method="_on_player_detector_body_exited"]
