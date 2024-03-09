@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://crm236ht0ljvi"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_xnr7f"]
+size = Vector3(2, 2, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d1kla"]
+albedo_color = Color(0.298039, 0.498039, 0, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_smy3n"]
+size = Vector3(2, 2, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g5oit"]
+albedo_color = Color(0.737255, 0.498039, 0.337255, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wchu4"]
+albedo_color = Color(0.643137, 0.678431, 0.839216, 1)
+
+[node name="Library" type="Node3D"]
+
+[node name="Grass" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_xnr7f")
+surface_material_override/0 = SubResource("StandardMaterial3D_d1kla")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Grass"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Grass/StaticBody3D"]
+shape = SubResource("BoxShape3D_smy3n")
+
+[node name="Dirt" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_xnr7f")
+surface_material_override/0 = SubResource("StandardMaterial3D_g5oit")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Dirt"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Dirt/StaticBody3D"]
+shape = SubResource("BoxShape3D_smy3n")
+
+[node name="Stone" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_xnr7f")
+surface_material_override/0 = SubResource("StandardMaterial3D_wchu4")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Stone"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Stone/StaticBody3D"]
+shape = SubResource("BoxShape3D_smy3n")

@@ -48,3 +48,11 @@ action={
 , Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":1,"position":Vector2(80, 10),"global_position":Vector2(84, 51),"factor":1.0,"button_index":1,"canceled":false,"pressed":true,"double_click":true,"script":null)
 ]
 }
+
+[rendering]
+
+mesh_lod/lod_change/threshold_pixels=3.0
+2d/snap/snap_2d_transforms_to_pixel=true
+2d/snap/snap_2d_vertices_to_pixel=true
+mesh_lod/snap/snap_2d_vertices_to_pixel=true
+mesh_lod/snap/snap_2d_transforms_to_pixel=true

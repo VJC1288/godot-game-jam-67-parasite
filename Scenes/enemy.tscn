@@ -1,0 +1,63 @@
+[gd_scene load_steps=11 format=3 uid="uid://citbkd0mqp0rb"]
+
+[ext_resource type="Script" path="res://Scripts/enemy.gd" id="1_1fo1j"]
+[ext_resource type="Texture2D" uid="uid://dmhn4ywagh8uo" path="res://Assets/exclamation.png" id="2_4y7nx"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_k1ahg"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2582r"]
+albedo_color = Color(0.717647, 0.0901961, 0.0705882, 1)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tat0t"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_jsmgd"]
+size = Vector2(0.5, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1g385"]
+albedo_color = Color(1, 1, 0.462745, 1)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_57ks5"]
+points = PackedVector3Array(1, 0, -1, 5, 0, -5, 5, 0, 5, 1, 0, 1, 1, -1, -1, 5, -1, 5, 5, -1, -5, 1, -1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1qnro"]
+transparency = 1
+albedo_texture = ExtResource("2_4y7nx")
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_2j4j1"]
+material = SubResource("StandardMaterial3D_1qnro")
+
+[node name="Enemy" type="CharacterBody3D"]
+script = ExtResource("1_1fo1j")
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_k1ahg")
+surface_material_override/0 = SubResource("StandardMaterial3D_2582r")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_tat0t")
+
+[node name="Face" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.39527, -0.507955)
+mesh = SubResource("QuadMesh_jsmgd")
+surface_material_override/0 = SubResource("StandardMaterial3D_1g385")
+
+[node name="SightPivot" type="Node3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+
+[node name="PlayerDetector" type="Area3D" parent="SightPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SightPivot/PlayerDetector"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.47505, 0, 0)
+shape = SubResource("ConvexPolygonShape3D_57ks5")
+
+[node name="Exclamation" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.48788, 0)
+visible = false
+mesh = SubResource("QuadMesh_2j4j1")
+
+[connection signal="body_entered" from="SightPivot/PlayerDetector" to="." method="_on_player_detector_body_entered"]
+[connection signal="body_exited" from="SightPivot/PlayerDetector" to="." method="_on_player_detector_body_exited"]
