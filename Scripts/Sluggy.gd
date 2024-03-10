@@ -1,8 +1,9 @@
 extends CharacterBody3D
 
+class_name Player
 
 const Mind_Bullet_Scene = preload("res://Scenes/control_bullet.tscn")
-const Slug_Standard_Collision = preload("res://Scenes/slug_standard_collision.tres")
+
 
 @onready var cam_pivot = $CamPivot
 @onready var camera_3d = $CamPivot/Camera3D
@@ -46,7 +47,7 @@ func _input(event):
 
 func _physics_process(delta):
 	
-	prints(currentPlayerState, velocity.y)
+	#prints(currentPlayerState, velocity.y)
 	
 	match currentPlayerState:
 		
@@ -90,7 +91,7 @@ func _physics_process(delta):
 			accept_lateral_movement()
 			try_shooting()
 			
-			velocity.y -= gravity * delta * 1.5
+			velocity.y -= gravity * delta * 2
 			
 			#Play Falling animation here
 			
@@ -100,6 +101,7 @@ func _physics_process(delta):
 			
 			control_enemy_lateral_movement()
 			position = currentMindControllee.slug_attach_point.global_position
+			currentMindControllee.transform.basis = transform.basis
 			lose_control_of_enemy()
 			
 			
@@ -142,7 +144,7 @@ func shoot():
 	get_parent().add_child(mind_bullet)
 	
 func take_control_of_enemy(controlled_enemy: Enemy):
-	print("hit")
+
 	set_state(PlayerStates.MINDCONTROLLING)
 	currentMindControllee = controlled_enemy
 	position = currentMindControllee.slug_attach_point.global_position
@@ -151,10 +153,13 @@ func take_control_of_enemy(controlled_enemy: Enemy):
 	
 
 func lose_control_of_enemy():
-	if Input.is_action_just_pressed("action"):
+	if Input.is_action_just_pressed("jump"):
 		currentMindControllee.lose_control()
 		currentMindControllee = null
+		var direction = (transform.basis * Vector3(0, 0, 10)).normalized()
+		var recoil_strength = 30
 		velocity.y = JUMP_VELOCITY
-		velocity.z += 20
+		velocity.x = direction.x * recoil_strength
+		velocity.z = direction.z * recoil_strength
 		set_state(PlayerStates.JUMPING)
 	 

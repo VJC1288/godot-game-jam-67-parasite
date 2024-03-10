@@ -8,25 +8,28 @@ class_name Enemy
 @onready var collision_shape_3d = $CollisionShape3D
 @onready var player_detector = $SightPivot/PlayerDetector
 
+@export var enemy_model: Node3D
+var enemy_animation_player: AnimationPlayer
+
 enum EnemyMoveStates {IDLE = 1, CHASING, PATROLING, MINDCONTROLLED}
 var currentMoveState: EnemyMoveStates
 var chaseTarget
 
 #enum EnemyTeamStates {ENEMY = 1, PLAYER}
 #var currentTeamState: EnemyTeamStates
-#
 
 
 const SPEED = 3.0
 const JUMP_VELOCITY = 4.5
-var height
+
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 func _ready():
 	currentMoveState = EnemyMoveStates.IDLE
-	height = mesh_node.mesh.height
+	if enemy_model != null:
+		enemy_animation_player = enemy_model.get_node("AnimationPlayer")
 
 func _physics_process(delta):
 	if not is_on_floor():
@@ -40,6 +43,8 @@ func _physics_process(delta):
 			
 		EnemyMoveStates.CHASING:
 			
+			enemy_animation_player.play("Run")
+						
 			#Makes the Enemy look at the Player
 			look_at(chaseTarget.global_position, Vector3.UP)
 			
@@ -58,6 +63,10 @@ func _physics_process(delta):
 			move_and_slide()
 			
 		EnemyMoveStates.MINDCONTROLLED:
+			
+			if velocity != Vector3.ZERO:
+				enemy_animation_player.play("Run")
+			
 			move_and_slide()
 
 			
