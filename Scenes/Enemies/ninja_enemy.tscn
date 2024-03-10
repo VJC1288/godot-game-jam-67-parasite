@@ -1,11 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://s5vd1pi7slof"]
+[gd_scene load_steps=4 format=3 uid="uid://s5vd1pi7slof"]
 
 [ext_resource type="PackedScene" uid="uid://citbkd0mqp0rb" path="res://Scenes/enemy.tscn" id="1_nl28m"]
 [ext_resource type="PackedScene" uid="uid://fdlktj1ixjmx" path="res://Assets/Models/Ninja.glb" id="2_tkpya"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_7xhg0"]
+size = Vector3(1, 0.993286, 1)
+
 [node name="NinjaEnemy" node_paths=PackedStringArray("enemy_model") instance=ExtResource("1_nl28m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00967717, 0, 0.0223843)
 enemy_model = NodePath("Ninja4")
+enemy_type = 1
 
 [node name="SlugAttachPoint" parent="." index="3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.51189, 0)
@@ -21,7 +25,6 @@ bones/4/rotation = Quaternion(0.0992384, -1.46808e-14, 2.36603e-08, 0.995064)
 bones/5/rotation = Quaternion(-0.241383, -0.24526, -0.887842, 0.305482)
 bones/5/scale = Vector3(1, 1, 1)
 bones/6/rotation = Quaternion(0.0226655, -0.0243805, -0.0129942, 0.999361)
-bones/6/scale = Vector3(1, 1, 1)
 bones/7/rotation = Quaternion(0.0134733, 0.000909251, -0.0139004, 0.999812)
 bones/7/scale = Vector3(1, 1, 1)
 bones/8/rotation = Quaternion(-0.228813, 0.209104, 0.89705, 0.314995)
@@ -48,5 +51,13 @@ bones/19/rotation = Quaternion(0.494766, -0.504327, 0.521274, -0.47868)
 bones/19/scale = Vector3(1, 1, 1)
 bones/20/rotation = Quaternion(0.523941, 0.475747, 0.48694, 0.511898)
 bones/20/scale = Vector3(1, 1, 1)
+
+[node name="HurtBoxComponent" parent="." index="6"]
+collision_mask = 1
+damage = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HurtBoxComponent" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.527869, 0)
+shape = SubResource("BoxShape3D_7xhg0")
 
 [editable path="Ninja4"]

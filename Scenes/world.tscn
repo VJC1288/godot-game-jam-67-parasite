@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://bn8wf1alygwmp"]
+[gd_scene load_steps=8 format=3 uid="uid://bn8wf1alygwmp"]
 
 [ext_resource type="Script" path="res://Scripts/LevelManager.gd" id="1_7a45i"]
 [ext_resource type="Script" path="res://Scripts/world.gd" id="1_dmel5"]
+[ext_resource type="Script" path="res://Scripts/DeathZone.gd" id="3_7qnup"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4p0om"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -16,6 +17,9 @@ sky = SubResource("Sky_40i84")
 tonemap_mode = 2
 glow_enabled = true
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_oxkgv"]
+size = Vector3(2000, 3, 2000)
+
 [node name="World" type="Node3D"]
 script = ExtResource("1_dmel5")
 
@@ -28,3 +32,14 @@ environment = SubResource("Environment_1mhyv")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 16.6224, 0)
 shadow_enabled = true
+
+[node name="DeathZone" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -25, 0)
+collision_layer = 0
+collision_mask = 3
+script = ExtResource("3_7qnup")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DeathZone"]
+shape = SubResource("BoxShape3D_oxkgv")
+
+[connection signal="body_entered" from="DeathZone" to="DeathZone" method="_on_body_entered"]

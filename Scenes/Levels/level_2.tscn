@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://s5vd1pi7slof" path="res://Scenes/Enemies/ninja_enemy.tscn" id="2_m2uc6"]
 
 [node name="Level2" instance=ExtResource("1_1jdo0")]
-level_name = "level2"
+level_number = 2
 
 [node name="GridMap" parent="." index="0"]
 data = {

@@ -1,12 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://5ekxyo2fb4ch"]
+[gd_scene load_steps=3 format=3 uid="uid://5ekxyo2fb4ch"]
 
 [ext_resource type="PackedScene" uid="uid://kjqk2mvi27w5" path="res://Scenes/Levels/base_level.tscn" id="1_gu2vt"]
-[ext_resource type="Script" path="res://Scripts/Level1.gd" id="2_7ehnn"]
 [ext_resource type="PackedScene" uid="uid://s5vd1pi7slof" path="res://Scenes/Enemies/ninja_enemy.tscn" id="3_gjf76"]
 
 [node name="Level1" instance=ExtResource("1_gu2vt")]
-script = ExtResource("2_7ehnn")
-level_name = "level1"
+level_number = 1
 
 [node name="GridMap" parent="." index="0"]
 data = {
@@ -17,4 +15,4 @@ data = {
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.9852, 0.503699, -2)
 
 [node name="NinjaEnemy" parent="." index="3" instance=ExtResource("3_gjf76")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.66384, 0, -8.43057)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -14.5531, 0, -2.099)

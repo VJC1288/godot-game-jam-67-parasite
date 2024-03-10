@@ -2,6 +2,8 @@ extends CharacterBody3D
 
 class_name Player
 
+signal player_died
+
 const Mind_Bullet_Scene = preload("res://Scenes/control_bullet.tscn")
 
 
@@ -18,8 +20,10 @@ var currentPlayerState: PlayerStates
 var currentMindControllee: Enemy
 
 const SPEED = 5.0
+const DASH_SPEED = 80.0
 const JUMP_VELOCITY = 5.0
 
+var dashing = false
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -95,36 +99,62 @@ func _physics_process(delta):
 			control_lateral_movement()
 			try_shooting()
 			
-			velocity.y -= gravity * delta * 2
+			#fall faster than you jump in platformers
+			velocity.y -= gravity * delta * 2.5
 			
 			#Play Falling animation here
 			
 			move_and_slide()
 		
 		PlayerStates.MINDCONTROLLING:
+			if currentMindControllee == null:
+				currentPlayerState = PlayerStates.IDLE
+			else:
+				if currentMindControllee.velocity.y <= 4:
+					dashing = false
+				
+				
+				control_enemy_lateral_movement()
+				check_ability()
+				position = currentMindControllee.slug_attach_point.global_position
+				currentMindControllee.transform.basis = transform.basis
+				lose_control_of_enemy()
 			
-			control_enemy_lateral_movement()
-			position = currentMindControllee.slug_attach_point.global_position
-			currentMindControllee.transform.basis = transform.basis
-			lose_control_of_enemy()
 			
-			
-
-
 func set_state(new_state: PlayerStates):
 	currentPlayerState = new_state
 
 
 func control_enemy_lateral_movement():
+
 	var input_dir = Input.get_vector("left", "right", "forward", "back")
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	if direction:
+	if direction and dashing == false:
 		currentMindControllee.velocity.x = direction.x * SPEED
 		currentMindControllee.velocity.z = direction.z * SPEED
 	else:
 		currentMindControllee.velocity.x = move_toward(	currentMindControllee.velocity.x, 0, SPEED)
 		currentMindControllee.velocity.z = move_toward(	currentMindControllee.velocity.z, 0, SPEED)
-	
+
+func check_ability():
+	if Input.is_action_just_pressed("action"):
+		
+		print(currentMindControllee.enemy_type)
+		match currentMindControllee.enemy_type:
+			#Ninja
+			1:
+				if currentMindControllee.is_on_floor():
+					var direction = (transform.basis * Vector3(0, 0, -1)).normalized()
+					if direction:
+						currentMindControllee.velocity.x = direction.x * DASH_SPEED
+						currentMindControllee.velocity.z = direction.z * DASH_SPEED
+						currentMindControllee.velocity.y = 5.0
+						dashing = true
+					
+			#Unknown
+			_:
+				pass
+
 func control_lateral_movement():
 	var input_dir = Input.get_vector("left", "right", "forward", "back")
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
@@ -160,10 +190,20 @@ func lose_control_of_enemy():
 	if Input.is_action_just_pressed("jump"):
 		currentMindControllee.lose_control()
 		currentMindControllee = null
-		var direction = (transform.basis * Vector3(0, 0, 10)).normalized()
+		var direction = (transform.basis * Vector3(0, 0, 1)).normalized()
 		var recoil_strength = 30
 		velocity.y = JUMP_VELOCITY
 		velocity.x = direction.x * recoil_strength
 		velocity.z = direction.z * recoil_strength
 		set_state(PlayerStates.JUMPING)
-	 
+
+func recoil(from_location: Vector3 = position):
+	var direction = ((position - from_location).normalized())
+	var recoil_strength = 40
+	velocity.y = JUMP_VELOCITY
+	velocity.x = direction.x * recoil_strength
+	velocity.z = direction.z * recoil_strength
+
+func die():
+	emit_signal("player_died")
+	queue_free()

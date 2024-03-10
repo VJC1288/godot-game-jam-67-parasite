@@ -4,7 +4,7 @@ class_name Level
 
 signal level_exited(level)
 
-@export var level_name: String
+@export var level_number: int = 0
 @onready var spawn_point = $SpawnPoint
 @onready var exit_portal = $ExitPortal
 
@@ -13,8 +13,8 @@ func _ready():
 
 func _on_exit_portal_body_entered(body):
 
-	if level_name != "" and body.is_in_group("player"):
-		emit_signal("level_exited", level_name)
+	if level_number != 0 and body.is_in_group("player"):
+		emit_signal("level_exited", level_number)
 
 func enable_portal():
 	exit_portal.monitoring = true

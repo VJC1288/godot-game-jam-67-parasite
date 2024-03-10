@@ -1,6 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://vqb6ytoeqw0p"]
+[gd_scene load_steps=9 format=3 uid="uid://vqb6ytoeqw0p"]
 
 [ext_resource type="Script" path="res://Scripts/Sluggy.gd" id="1_6a0vb"]
+[ext_resource type="PackedScene" uid="uid://cblmp7va6vok7" path="res://Scenes/health_component.tscn" id="2_7xbi6"]
+[ext_resource type="Script" path="res://Scripts/HitBoxComponent.gd" id="3_vvf7u"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ngesx"]
 albedo_color = Color(0.0941176, 0.403922, 1, 1)
@@ -15,7 +17,10 @@ material = SubResource("StandardMaterial3D_ngesx")
 height = 0.2
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_j26i5"]
-size = Vector3(0.617432, 0.645508, 0.626953)
+size = Vector3(0.617432, 0.474243, 0.626953)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_n5m66"]
+size = Vector3(0.674805, 0.558838, 0.593994)
 
 [node name="Sluggy" type="CharacterBody3D" groups=["player"]]
 collision_mask = 32
@@ -29,7 +34,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.203634, 0)
 mesh = SubResource("SphereMesh_e2338")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0779839, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00764847, 0)
 shape = SubResource("BoxShape3D_j26i5")
 
 [node name="CamPivot" type="Node3D" parent="."]
@@ -42,3 +47,15 @@ current = true
 [node name="BulletSpawnLocation" type="Marker3D" parent="."]
 
 [node name="BulletContainer" type="Node3D" parent="."]
+
+[node name="HealthComponent" parent="." instance=ExtResource("2_7xbi6")]
+max_health = 100
+
+[node name="HitBoxComponent" type="Area3D" parent="." node_paths=PackedStringArray("health_component")]
+collision_mask = 0
+script = ExtResource("3_vvf7u")
+health_component = NodePath("../HealthComponent")
+team = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitBoxComponent"]
+shape = SubResource("BoxShape3D_n5m66")

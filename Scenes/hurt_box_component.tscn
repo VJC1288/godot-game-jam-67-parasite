@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://ckvsnfn885361"]
+
+[ext_resource type="Script" path="res://Scripts/HurtBoxComponent.gd" id="1_i5unv"]
+
+[node name="HurtBoxComponent" type="Area3D"]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_i5unv")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

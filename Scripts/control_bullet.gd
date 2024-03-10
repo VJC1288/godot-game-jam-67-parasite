@@ -22,5 +22,4 @@ func remove_bullet():
 
 func _on_body_entered(body):
 	if body.is_in_group("enemies") and body.has_method("take_control"):
-		print("hit")
 		emit_signal("hit_enemy", body)
