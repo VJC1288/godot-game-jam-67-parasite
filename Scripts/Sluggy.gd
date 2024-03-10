@@ -23,6 +23,10 @@ const SPEED = 5.0
 const DASH_SPEED = 80.0
 const JUMP_VELOCITY = 5.0
 
+var coyote_time: float = .5
+var jump_available: bool = true
+var jump_buffer: bool = false
+var jump_buffer_time: float = .1
 var dashing = false
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -59,13 +63,22 @@ func _physics_process(delta):
 	
 			# Add the gravity.
 			if not is_on_floor():
+				
+				get_tree().create_timer(coyote_time).timeout.connect(coyote_timeout)
 				set_state(PlayerStates.FALLING)
+			
+			else:
+				jump_available = true
+				if jump_buffer:
+					jump()
+					jump_buffer = false	
 
 			# Handle jump.
-			if Input.is_action_just_pressed("jump") and is_on_floor():
-				velocity.y = JUMP_VELOCITY
-				set_state(PlayerStates.JUMPING)
-				
+			if Input.is_action_just_pressed("jump"):
+				if jump_available:
+					jump()
+
+			
 			control_lateral_movement()
 			try_shooting()
 
@@ -82,7 +95,10 @@ func _physics_process(delta):
 			
 			control_lateral_movement()
 			try_shooting()
-				
+			
+
+			
+			
 			velocity.y -= gravity * delta
 			
 			if velocity.y <= 0:
@@ -98,6 +114,15 @@ func _physics_process(delta):
 			
 			control_lateral_movement()
 			try_shooting()
+			
+			#Enable jump buffer if pressed while falling
+			if Input.is_action_just_pressed("jump"):
+				if jump_available:
+					jump()
+				else:
+					jump_buffer = true
+					get_tree().create_timer(jump_buffer_time).timeout.connect(jump_buffer_disable)
+			
 			
 			#fall faster than you jump in platformers
 			velocity.y -= gravity * delta * 2.5
@@ -188,6 +213,7 @@ func take_control_of_enemy(controlled_enemy: Enemy):
 
 func lose_control_of_enemy():
 	if Input.is_action_just_pressed("jump"):
+		jump_available = false
 		currentMindControllee.lose_control()
 		currentMindControllee = null
 		var direction = (transform.basis * Vector3(0, 0, 1)).normalized()
@@ -197,12 +223,23 @@ func lose_control_of_enemy():
 		velocity.z = direction.z * recoil_strength
 		set_state(PlayerStates.JUMPING)
 
+func jump():
+	velocity.y = JUMP_VELOCITY
+	jump_available = false
+	set_state(PlayerStates.JUMPING)
+
 func recoil(from_location: Vector3 = position):
 	var direction = ((position - from_location).normalized())
 	var recoil_strength = 40
 	velocity.y = JUMP_VELOCITY
 	velocity.x = direction.x * recoil_strength
 	velocity.z = direction.z * recoil_strength
+
+func coyote_timeout():
+	jump_available = false
+
+func jump_buffer_disable():
+	jump_buffer = false
 
 func die():
 	emit_signal("player_died")
