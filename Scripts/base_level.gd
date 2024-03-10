@@ -8,10 +8,11 @@ signal level_exited(level)
 @onready var spawn_point = $SpawnPoint
 @onready var exit_portal = $ExitPortal
 
-
+func _ready():
+	get_tree().create_timer(2.0).timeout.connect(enable_portal)
 
 func _on_exit_portal_body_entered(body):
-	print("entered")
+
 	if level_name != "" and body.is_in_group("player"):
 		emit_signal("level_exited", level_name)
 

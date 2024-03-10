@@ -1,46 +1,52 @@
-[gd_scene load_steps=5 format=3 uid="uid://s5vd1pi7slof"]
+[gd_scene load_steps=3 format=3 uid="uid://s5vd1pi7slof"]
 
 [ext_resource type="PackedScene" uid="uid://citbkd0mqp0rb" path="res://Scenes/enemy.tscn" id="1_nl28m"]
-[ext_resource type="PackedScene" uid="uid://buwrj6nd1176c" path="res://Assets/Models/Ninja4.glb" id="2_oi0vs"]
-[ext_resource type="Texture2D" uid="uid://6evbpabn0mo" path="res://Assets/Models/Ninja4_Ninja_Eyes.png" id="3_c3qk0"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pf0ir"]
-albedo_texture = ExtResource("3_c3qk0")
-uv1_scale = Vector3(-8.7, -8.7, -8.7)
-uv1_offset = Vector3(0.76, 1.21, 0)
-texture_filter = 2
+[ext_resource type="PackedScene" uid="uid://fdlktj1ixjmx" path="res://Assets/Models/Ninja.glb" id="2_tkpya"]
 
 [node name="NinjaEnemy" node_paths=PackedStringArray("enemy_model") instance=ExtResource("1_nl28m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00967717, 0, 0.0223843)
 enemy_model = NodePath("Ninja4")
 
 [node name="SlugAttachPoint" parent="." index="3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.49612, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.51189, 0)
 
-[node name="Ninja4" parent="." index="4" instance=ExtResource("2_oi0vs")]
+[node name="Ninja4" parent="." index="4" instance=ExtResource("2_tkpya")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 
 [node name="Skeleton3D" parent="Ninja4/Armature" index="1"]
-bones/0/position = Vector3(1.22316e-25, 0.032296, -1.39698e-09)
-bones/0/rotation = Quaternion(0.220555, 2.53401e-18, 3.11469e-17, 0.975375)
-bones/1/rotation = Quaternion(-0.00982244, 0.0277736, -0.0129039, 0.999483)
-bones/4/rotation = Quaternion(0.115014, -7.53092e-10, 2.81682e-08, 0.993364)
-bones/5/rotation = Quaternion(-0.518672, -0.447557, -0.727766, 0.0320727)
-bones/6/rotation = Quaternion(0.114287, -0.145796, -0.204615, 0.961153)
-bones/7/rotation = Quaternion(0.135359, -0.163567, -0.239514, 0.947395)
-bones/8/rotation = Quaternion(0.147362, -0.498608, 0.836369, 0.173671)
-bones/9/rotation = Quaternion(0.387521, 0.195737, -0.0218912, 0.900575)
-bones/10/rotation = Quaternion(0.426402, 0.199848, -0.00881788, 0.882136)
-bones/11/rotation = Quaternion(0.689005, 0.123522, -0.711793, -0.0580087)
-bones/12/rotation = Quaternion(0.000900017, -0.00388785, -0.347203, 0.937782)
-bones/13/rotation = Quaternion(-0.0396037, 0.0792669, 0.257719, 0.962148)
-bones/14/rotation = Quaternion(0.649263, 0.262369, 0.650317, 0.294463)
-bones/15/rotation = Quaternion(8.28367e-06, 0.00414574, 0.00319845, 0.999986)
-bones/16/rotation = Quaternion(-0.00730668, -0.00488169, -0.703112, 0.711025)
-bones/17/position = Vector3(0.172186, -0.0415798, -0.154921)
-bones/19/position = Vector3(-0.172186, -0.232856, 0.148251)
-
-[node name="Cube_004" parent="Ninja4/Armature/Skeleton3D" index="1"]
-surface_material_override/0 = SubResource("StandardMaterial3D_pf0ir")
+bones/2/rotation = Quaternion(-0.134695, -2.80108e-14, -3.21138e-08, 0.990887)
+bones/2/scale = Vector3(1, 1, 1)
+bones/3/rotation = Quaternion(-0.0356397, 3.40222e-15, -8.49716e-09, 0.999365)
+bones/4/rotation = Quaternion(0.0992384, -1.46808e-14, 2.36603e-08, 0.995064)
+bones/5/rotation = Quaternion(-0.241383, -0.24526, -0.887842, 0.305482)
+bones/5/scale = Vector3(1, 1, 1)
+bones/6/rotation = Quaternion(0.0226655, -0.0243805, -0.0129942, 0.999361)
+bones/6/scale = Vector3(1, 1, 1)
+bones/7/rotation = Quaternion(0.0134733, 0.000909251, -0.0139004, 0.999812)
+bones/7/scale = Vector3(1, 1, 1)
+bones/8/rotation = Quaternion(-0.228813, 0.209104, 0.89705, 0.314995)
+bones/8/scale = Vector3(1, 1, 1)
+bones/9/rotation = Quaternion(0.0564496, 0.0561989, 0.0265679, 0.996468)
+bones/9/scale = Vector3(1, 1, 1)
+bones/10/rotation = Quaternion(0.0134733, -0.000909269, 0.0139004, 0.999812)
+bones/10/scale = Vector3(1, 1, 1)
+bones/11/rotation = Quaternion(0.699911, -0.0759786, -0.700314, 0.117951)
+bones/11/scale = Vector3(1, 1, 1)
+bones/12/rotation = Quaternion(0.000560791, -0.00404759, -0.216339, 0.97631)
+bones/13/rotation = Quaternion(-0.012554, 0.00337674, 0.801066, 0.598435)
+bones/13/scale = Vector3(1, 1, 1)
+bones/14/rotation = Quaternion(0.699911, 0.0759786, 0.700314, 0.117951)
+bones/14/scale = Vector3(1, 1, 1)
+bones/15/rotation = Quaternion(0.000560792, 0.00404759, 0.216339, 0.97631)
+bones/16/rotation = Quaternion(-0.012554, -0.00337674, -0.801066, 0.598435)
+bones/16/scale = Vector3(1, 1, 1)
+bones/17/rotation = Quaternion(-0.494766, -0.504327, 0.521274, 0.47868)
+bones/17/scale = Vector3(1, 1, 1)
+bones/18/rotation = Quaternion(0.523941, -0.475747, -0.48694, 0.511898)
+bones/18/scale = Vector3(1, 1, 1)
+bones/19/rotation = Quaternion(0.494766, -0.504327, 0.521274, -0.47868)
+bones/19/scale = Vector3(1, 1, 1)
+bones/20/rotation = Quaternion(0.523941, 0.475747, 0.48694, 0.511898)
+bones/20/scale = Vector3(1, 1, 1)
 
 [editable path="Ninja4"]

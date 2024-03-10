@@ -62,19 +62,21 @@ func _physics_process(delta):
 				velocity.y = JUMP_VELOCITY
 				set_state(PlayerStates.JUMPING)
 				
-			accept_lateral_movement()
+			control_lateral_movement()
 			try_shooting()
 
 			move_and_slide()
 			
 		PlayerStates.MOVING:
+			
+			#Will need this later for a move animation
 			pass
 			
 		PlayerStates.JUMPING:
 			if is_on_floor():
 				set_state(PlayerStates.IDLE)
 			
-			accept_lateral_movement()
+			control_lateral_movement()
 			try_shooting()
 				
 			velocity.y -= gravity * delta
@@ -82,13 +84,15 @@ func _physics_process(delta):
 			if velocity.y <= 0:
 				set_state(PlayerStates.FALLING)
 			
+			#Play Jumping animation here
+			
 			move_and_slide()
 			
 		PlayerStates.FALLING:
 			if is_on_floor():
 				set_state(PlayerStates.IDLE)
 			
-			accept_lateral_movement()
+			control_lateral_movement()
 			try_shooting()
 			
 			velocity.y -= gravity * delta * 2
@@ -121,7 +125,7 @@ func control_enemy_lateral_movement():
 		currentMindControllee.velocity.x = move_toward(	currentMindControllee.velocity.x, 0, SPEED)
 		currentMindControllee.velocity.z = move_toward(	currentMindControllee.velocity.z, 0, SPEED)
 	
-func accept_lateral_movement():
+func control_lateral_movement():
 	var input_dir = Input.get_vector("left", "right", "forward", "back")
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction:

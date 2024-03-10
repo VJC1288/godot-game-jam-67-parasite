@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://6evbpabn0mo"
-path.s3tc="res://.godot/imported/Ninja4_Ninja_Eyes.png-d5a02ce9bac846645a03a1b637880dd9.s3tc.ctex"
+uid="uid://baee25yxhexwq"
+path.s3tc="res://.godot/imported/Ninja4_Ninja_Eyes.png-4b5352596a0af8d8359062938c89bbd7.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ generator_parameters={}
 
 [deps]
 
-source_file="res://Assets/Models/Ninja4_Ninja_Eyes.png"
-dest_files=["res://.godot/imported/Ninja4_Ninja_Eyes.png-d5a02ce9bac846645a03a1b637880dd9.s3tc.ctex"]
+source_file="res://Resources/Ninja4_Ninja_Eyes.png"
+dest_files=["res://.godot/imported/Ninja4_Ninja_Eyes.png-4b5352596a0af8d8359062938c89bbd7.s3tc.ctex"]
 
 [params]
 

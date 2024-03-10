@@ -38,6 +38,8 @@ func _physics_process(delta):
 	match currentMoveState:
 		EnemyMoveStates.IDLE:
 			
+			enemy_animation_player.play("Idle")
+			
 			velocity.y -= gravity * delta
 			move_and_slide()
 			
@@ -66,6 +68,8 @@ func _physics_process(delta):
 			
 			if velocity != Vector3.ZERO:
 				enemy_animation_player.play("Run")
+			else:
+				enemy_animation_player.play("Idle")
 			
 			move_and_slide()
 
