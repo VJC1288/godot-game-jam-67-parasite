@@ -1,11 +1,15 @@
-[gd_scene load_steps=8 format=3 uid="uid://bn8wf1alygwmp"]
+[gd_scene load_steps=17 format=3 uid="uid://bn8wf1alygwmp"]
 
 [ext_resource type="Script" path="res://Scripts/world.gd" id="1_dmel5"]
 [ext_resource type="PackedScene" uid="uid://sw7vgcvxcacx" path="res://Scenes/level_manager.tscn" id="2_heikv"]
 [ext_resource type="Script" path="res://Scripts/DeathZone.gd" id="3_7qnup"]
+[ext_resource type="Shader" path="res://water.gdshader" id="4_ouswo"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4p0om"]
-sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+sky_top_color = Color(0.211765, 0.517647, 0.341176, 1)
+sky_horizon_color = Color(0.890196, 0.54902, 0.509804, 1)
+sky_curve = 0.080383
+sky_energy_multiplier = 0.95
 ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
 
 [sub_resource type="Sky" id="Sky_40i84"]
@@ -16,14 +20,57 @@ background_mode = 2
 sky = SubResource("Sky_40i84")
 tonemap_mode = 2
 glow_enabled = true
+fog_enabled = true
+fog_light_energy = 0.5
+fog_sky_affect = 0.25
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_oxkgv"]
 size = Vector3(2000, 3, 2000)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_l0wm6"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_x3bk7"]
+seamless = true
+noise = SubResource("FastNoiseLite_l0wm6")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_1cdft"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ssr3d"]
+seamless = true
+noise = SubResource("FastNoiseLite_1cdft")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_3d83r"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_mrf81"]
+seamless = true
+as_normal_map = true
+noise = SubResource("FastNoiseLite_3d83r")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_n6omv"]
+render_priority = 0
+shader = ExtResource("4_ouswo")
+shader_parameter/speed = 0.00100005
+shader_parameter/color = Color(0, 0, 0.572549, 1)
+shader_parameter/edge_color = Color(0.431373, 0.419608, 0.858824, 1)
+shader_parameter/edge_scale = 0.25
+shader_parameter/near = 0.065
+shader_parameter/far = 100.0
+shader_parameter/wave_strengh = Vector2(0.5, 0.25)
+shader_parameter/wave_frequency = Vector2(12, 12)
+shader_parameter/time_factor = Vector2(1, 2)
+shader_parameter/noise1 = SubResource("NoiseTexture2D_x3bk7")
+shader_parameter/noise2 = SubResource("NoiseTexture2D_ssr3d")
+shader_parameter/normalmap = SubResource("NoiseTexture2D_mrf81")
+
+[sub_resource type="QuadMesh" id="QuadMesh_w7trt"]
+material = SubResource("ShaderMaterial_n6omv")
+size = Vector2(1000, 1000)
 
 [node name="World" type="Node3D"]
 script = ExtResource("1_dmel5")
 
 [node name="LevelManager" parent="." instance=ExtResource("2_heikv")]
+starting_level = 4
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_1mhyv")
@@ -33,12 +80,16 @@ transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75
 shadow_enabled = true
 
 [node name="DeathZone" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -25, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8.86711, 0)
 collision_layer = 0
 collision_mask = 3
 script = ExtResource("3_7qnup")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DeathZone"]
 shape = SubResource("BoxShape3D_oxkgv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -7, 0)
+mesh = SubResource("QuadMesh_w7trt")
 
 [connection signal="body_entered" from="DeathZone" to="DeathZone" method="_on_body_entered"]

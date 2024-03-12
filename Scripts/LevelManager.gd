@@ -2,11 +2,16 @@ extends Node3D
 
 const LEVEL_1 = preload("res://Scenes/Levels/level_1.tscn")
 const LEVEL_2 = preload("res://Scenes/Levels/level_2.tscn")
+const LEVEL_3 = preload("res://Scenes/Levels/level_3.tscn")
+const LEVEL_4 = preload("res://Scenes/Levels/level_4.tscn")
+
+@export var starting_level: int
 
 #keep level 1 last for now until an end screen is set. this will cause game to loop back to level 1
-var level_array = [null, LEVEL_1, LEVEL_2, LEVEL_1]
+var level_array = [null, LEVEL_1, LEVEL_2, LEVEL_3, LEVEL_4, LEVEL_1]
 
 var current_level: Level = null
+
 
 var player: Player
 
@@ -16,7 +21,7 @@ func _input(event):
 
 func initialize(passed_player):
 	player = passed_player
-	switch_level(0)
+	switch_level(starting_level-1)
 
 func reset_player(passed_player):
 	player = passed_player
