@@ -54,7 +54,7 @@ bones/20/scale = Vector3(1, 1, 1)
 
 [node name="HurtBoxComponent" parent="." index="6"]
 collision_mask = 1
-damage = 2
+damage = 20
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HurtBoxComponent" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.527869, 0)

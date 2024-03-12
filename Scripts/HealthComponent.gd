@@ -23,7 +23,7 @@ func heal_by_amount(amount: int):
 func damage_by_amount(amount: int):
 
 	current_health = clamp(current_health - amount, 0, 100)
-	print(current_health)
+	prints("Health: ",current_health)
 	if current_health <= 0:
 		if actor.has_method("die"):
 			actor.die()
