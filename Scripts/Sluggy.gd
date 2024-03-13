@@ -12,6 +12,7 @@ const Mind_Bullet_Scene = preload("res://Scenes/control_bullet.tscn")
 @onready var bullet_spawn_location = $BulletSpawnLocation
 @onready var bullet_container = $BulletContainer
 @onready var collision_shape_3d = $CollisionShape3D
+@onready var health_component = $HealthComponent
 
 
 

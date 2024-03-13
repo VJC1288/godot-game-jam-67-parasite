@@ -40,6 +40,7 @@ func restart_level():
 	var next_level = next_level_scene.instantiate()
 	next_level.level_exited.connect(switch_level)
 	add_child(next_level)
+	player.health_component.set_health_to(100)
 	player.global_position = next_level.spawn_point.global_position
 	current_level = next_level
 
@@ -56,6 +57,7 @@ func switch_level(from_level: int):
 	next_level.level_exited.connect(switch_level)
 	add_child(next_level)
 	player.global_position = next_level.spawn_point.global_position
+	player.health_component.set_health_to(100)
 	current_level = next_level
 
 func get_current_spawn_location() -> Vector3:

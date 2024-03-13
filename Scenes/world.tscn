@@ -1,9 +1,10 @@
-[gd_scene load_steps=17 format=3 uid="uid://bn8wf1alygwmp"]
+[gd_scene load_steps=24 format=3 uid="uid://bn8wf1alygwmp"]
 
 [ext_resource type="Script" path="res://Scripts/world.gd" id="1_dmel5"]
 [ext_resource type="PackedScene" uid="uid://sw7vgcvxcacx" path="res://Scenes/level_manager.tscn" id="2_heikv"]
 [ext_resource type="Script" path="res://Scripts/DeathZone.gd" id="3_7qnup"]
 [ext_resource type="Shader" path="res://water.gdshader" id="4_ouswo"]
+[ext_resource type="Shader" path="res://dirt.gdshader" id="4_upfh0"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4p0om"]
 sky_top_color = Color(0.211765, 0.517647, 0.341176, 1)
@@ -27,43 +28,64 @@ fog_sky_affect = 0.25
 [sub_resource type="BoxShape3D" id="BoxShape3D_oxkgv"]
 size = Vector3(2000, 3, 2000)
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_l0wm6"]
+[sub_resource type="Gradient" id="Gradient_f0svx"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.00336136, 0.149966, 0.6918, 1)
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_x3bk7"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_rc1c1"]
+gradient = SubResource("Gradient_f0svx")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_gmaca"]
+noise_type = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_7idtu"]
 seamless = true
-noise = SubResource("FastNoiseLite_l0wm6")
+noise = SubResource("FastNoiseLite_gmaca")
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_1cdft"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ylog5"]
+noise_type = 2
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ssr3d"]
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_n8q0q"]
 seamless = true
-noise = SubResource("FastNoiseLite_1cdft")
+noise = SubResource("FastNoiseLite_ylog5")
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_3d83r"]
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_mrf81"]
-seamless = true
-as_normal_map = true
-noise = SubResource("FastNoiseLite_3d83r")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_n6omv"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u61u4"]
 render_priority = 0
 shader = ExtResource("4_ouswo")
-shader_parameter/speed = 0.00100005
-shader_parameter/color = Color(0, 0, 0.572549, 1)
-shader_parameter/edge_color = Color(0.431373, 0.419608, 0.858824, 1)
-shader_parameter/edge_scale = 0.25
-shader_parameter/near = 0.065
-shader_parameter/far = 100.0
-shader_parameter/wave_strengh = Vector2(0.5, 0.25)
-shader_parameter/wave_frequency = Vector2(12, 12)
-shader_parameter/time_factor = Vector2(1, 2)
-shader_parameter/noise1 = SubResource("NoiseTexture2D_x3bk7")
-shader_parameter/noise2 = SubResource("NoiseTexture2D_ssr3d")
-shader_parameter/normalmap = SubResource("NoiseTexture2D_mrf81")
+shader_parameter/offset = Vector2(0.5, 0.5)
+shader_parameter/noise1 = SubResource("NoiseTexture2D_7idtu")
+shader_parameter/noise2 = SubResource("NoiseTexture2D_n8q0q")
+shader_parameter/color = SubResource("GradientTexture1D_rc1c1")
 
-[sub_resource type="QuadMesh" id="QuadMesh_w7trt"]
-material = SubResource("ShaderMaterial_n6omv")
+[sub_resource type="QuadMesh" id="QuadMesh_qemkr"]
+material = SubResource("ShaderMaterial_u61u4")
+size = Vector2(1000, 1000)
+
+[sub_resource type="Gradient" id="Gradient_xxh1n"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(0.434635, 0.214229, 0.133291, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_7i47d"]
+gradient = SubResource("Gradient_xxh1n")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_o2bwg"]
+noise_type = 4
+seed = 123445
+frequency = 0.1818
+fractal_octaves = 4
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_j5ya0"]
+seamless = true
+noise = SubResource("FastNoiseLite_o2bwg")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nfsem"]
+render_priority = 0
+shader = ExtResource("4_upfh0")
+shader_parameter/noise1 = SubResource("NoiseTexture2D_j5ya0")
+shader_parameter/color = SubResource("GradientTexture1D_7i47d")
+
+[sub_resource type="QuadMesh" id="QuadMesh_881y2"]
+material = SubResource("ShaderMaterial_nfsem")
 size = Vector2(1000, 1000)
 
 [node name="World" type="Node3D"]
@@ -88,8 +110,12 @@ script = ExtResource("3_7qnup")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DeathZone"]
 shape = SubResource("BoxShape3D_oxkgv")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="Ocean surface" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -7, 0)
-mesh = SubResource("QuadMesh_w7trt")
+mesh = SubResource("QuadMesh_qemkr")
+
+[node name="Ocean floor" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -30.6804, 0)
+mesh = SubResource("QuadMesh_881y2")
 
 [connection signal="body_entered" from="DeathZone" to="DeathZone" method="_on_body_entered"]

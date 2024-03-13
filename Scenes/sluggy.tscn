@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://vqb6ytoeqw0p"]
+[gd_scene load_steps=13 format=3 uid="uid://vqb6ytoeqw0p"]
 
 [ext_resource type="Script" path="res://Scripts/Sluggy.gd" id="1_6a0vb"]
 [ext_resource type="PackedScene" uid="uid://cblmp7va6vok7" path="res://Scenes/health_component.tscn" id="2_7xbi6"]
@@ -21,6 +21,20 @@ size = Vector3(0.617432, 0.474243, 0.626953)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_n5m66"]
 size = Vector3(0.674805, 0.558838, 0.593994)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xom5t"]
+bg_color = Color(0, 0, 0, 0.396078)
+
+[sub_resource type="Gradient" id="Gradient_qsg76"]
+interpolation_color_space = 1
+offsets = PackedFloat32Array(0, 0.637131)
+colors = PackedColorArray(0, 0, 0, 1, 0.839216, 0.176471, 0.321569, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_idk8e"]
+gradient = SubResource("Gradient_qsg76")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lod1o"]
+texture = SubResource("GradientTexture1D_idk8e")
 
 [node name="Sluggy" type="CharacterBody3D" groups=["player"]]
 collision_mask = 32
@@ -46,10 +60,9 @@ current = true
 
 [node name="BulletSpawnLocation" type="Marker3D" parent="."]
 
-[node name="BulletContainer" type="Node3D" parent="."]
-
-[node name="HealthComponent" parent="." instance=ExtResource("2_7xbi6")]
+[node name="HealthComponent" parent="." node_paths=PackedStringArray("health_bar") instance=ExtResource("2_7xbi6")]
 max_health = 100
+health_bar = NodePath("../CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer/HealthBar")
 
 [node name="HitBoxComponent" type="Area3D" parent="." node_paths=PackedStringArray("health_component")]
 collision_mask = 0
@@ -59,3 +72,39 @@ team = 1
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HitBoxComponent"]
 shape = SubResource("BoxShape3D_n5m66")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HealthBar" type="ProgressBar" parent="CanvasLayer/MarginContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme_override_constants/outline_size = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_xom5t")
+theme_override_styles/fill = SubResource("StyleBoxTexture_lod1o")
+value = 100.0
+show_percentage = false
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
