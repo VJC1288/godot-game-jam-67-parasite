@@ -10,6 +10,11 @@ enum EnumEnemyTypes {NONE = 0, NINJA = 1}
 @onready var collision_shape_3d = $CollisionShape3D
 @onready var player_detector = $SightPivot/PlayerDetector
 
+@onready var hurt_box_component = $HurtBoxComponent
+@onready var hit_box_component = $HitBoxComponent
+
+
+
 @export var enemy_model: Node3D
 @export var enemy_type: EnumEnemyTypes
 
@@ -82,6 +87,13 @@ func _physics_process(delta):
 func setMoveState(new_state):
 	currentMoveState = new_state
 
+func setTeamEnemy():
+	hit_box_component.setTeamEnemy()
+	hurt_box_component.setTeamEnemy()
+
+func setTeamPlayer():
+	hit_box_component.setTeamPlayer()
+	hurt_box_component.setTeamPlayer()
 
 func _on_player_detector_body_entered(body):
 	#Starts chasing Player
@@ -107,6 +119,14 @@ func lose_control():
 	player_detector.monitoring = true
 	setMoveState(EnemyMoveStates.IDLE)	
 
+func recoil(from_location: Vector3 = position):
+	var direction = ((position - from_location).normalized())
+	var recoil_strength = 40
+	velocity.y = JUMP_VELOCITY
+	velocity.x = direction.x * recoil_strength
+	velocity.z = direction.z * recoil_strength
+
+
 func die():
-	queue_free()
+	call_deferred("queue_free")
 	

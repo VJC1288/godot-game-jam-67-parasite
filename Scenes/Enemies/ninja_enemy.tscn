@@ -1,10 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://s5vd1pi7slof"]
+[gd_scene load_steps=5 format=3 uid="uid://s5vd1pi7slof"]
 
 [ext_resource type="PackedScene" uid="uid://citbkd0mqp0rb" path="res://Scenes/enemy.tscn" id="1_nl28m"]
 [ext_resource type="PackedScene" uid="uid://fdlktj1ixjmx" path="res://Assets/Models/Ninja.glb" id="2_tkpya"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7xhg0"]
 size = Vector3(1, 0.993286, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tu6go"]
 
 [node name="NinjaEnemy" node_paths=PackedStringArray("enemy_model") instance=ExtResource("1_nl28m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00967717, 0, 0.0223843)
@@ -52,12 +54,25 @@ bones/19/scale = Vector3(1, 1, 1)
 bones/20/rotation = Quaternion(0.523941, 0.475747, 0.48694, 0.511898)
 bones/20/scale = Vector3(1, 1, 1)
 
+[node name="HealthComponent" parent="." index="5"]
+max_health = 50
+
 [node name="HurtBoxComponent" parent="." index="6"]
-collision_mask = 1
+collision_mask = 3
 damage = 20
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HurtBoxComponent" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.527869, 0)
 shape = SubResource("BoxShape3D_7xhg0")
+
+[node name="HitBoxComponent" parent="." index="7" node_paths=PackedStringArray("health_component")]
+collision_layer = 2
+collision_mask = 2
+health_component = NodePath("../HealthComponent")
+team = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitBoxComponent" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.489266, 0)
+shape = SubResource("BoxShape3D_tu6go")
 
 [editable path="Ninja4"]

@@ -30,23 +30,27 @@ size = Vector3(2000, 3, 2000)
 
 [sub_resource type="Gradient" id="Gradient_f0svx"]
 offsets = PackedFloat32Array(0)
-colors = PackedColorArray(0.00336136, 0.149966, 0.6918, 1)
+colors = PackedColorArray(0.190082, 0.280846, 0.221028, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_rc1c1"]
 gradient = SubResource("Gradient_f0svx")
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_gmaca"]
 noise_type = 2
+frequency = 0.1
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_7idtu"]
 seamless = true
+seamless_blend_skirt = 0.06
 noise = SubResource("FastNoiseLite_gmaca")
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_ylog5"]
 noise_type = 2
+frequency = 0.1
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_n8q0q"]
 seamless = true
+seamless_blend_skirt = 0.05
 noise = SubResource("FastNoiseLite_ylog5")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u61u4"]
@@ -92,7 +96,7 @@ size = Vector2(1000, 1000)
 script = ExtResource("1_dmel5")
 
 [node name="LevelManager" parent="." instance=ExtResource("2_heikv")]
-starting_level = 4
+starting_level = 5
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_1mhyv")

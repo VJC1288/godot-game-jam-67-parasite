@@ -13,7 +13,7 @@ const Mind_Bullet_Scene = preload("res://Scenes/control_bullet.tscn")
 @onready var bullet_container = $BulletContainer
 @onready var collision_shape_3d = $CollisionShape3D
 @onready var health_component = $HealthComponent
-
+@onready var animation_player = $Slug/AnimationPlayer
 
 
 enum PlayerStates {IDLE = 1, MOVING, JUMPING, FALLING, MINDCONTROLLING}
@@ -38,6 +38,8 @@ func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	currentPlayerState = PlayerStates.IDLE
 
+		
+	
 func _input(event):
 	
 	if event is InputEventKey:
@@ -62,7 +64,6 @@ func _physics_process(delta):
 		
 		PlayerStates.IDLE:	
 	
-			# Add the gravity.
 			if not is_on_floor():
 				
 				get_tree().create_timer(coyote_time).timeout.connect(coyote_timeout)
@@ -73,22 +74,48 @@ func _physics_process(delta):
 				if jump_buffer:
 					jump()
 					jump_buffer = false	
-
+					
 			# Handle jump.
 			if Input.is_action_just_pressed("jump"):
 				if jump_available:
 					jump()
 
+			animation_player.play("Idle")
 			
-			control_lateral_movement()
+			var input_dir = Input.get_vector("left", "right", "forward", "back")
+			if input_dir != Vector2.ZERO:
+				set_state(PlayerStates.MOVING)
+				
 			try_shooting()
 
 			move_and_slide()
 			
 		PlayerStates.MOVING:
 			
-			#Will need this later for a move animation
-			pass
+			if not is_on_floor():
+				
+				get_tree().create_timer(coyote_time).timeout.connect(coyote_timeout)
+				set_state(PlayerStates.FALLING)
+			
+			else:
+				jump_available = true
+				if jump_buffer:
+					jump()
+					jump_buffer = false	
+			
+			var input_dir = Input.get_vector("left", "right", "forward", "back")
+			if input_dir == Vector2.ZERO:
+				set_state(PlayerStates.IDLE)
+				
+			if Input.is_action_just_pressed("jump"):
+				if jump_available:
+					jump()
+			
+			animation_player.play("Walk")
+			
+			try_shooting()
+			control_lateral_movement()
+			move_and_slide()
 			
 		PlayerStates.JUMPING:
 			if is_on_floor():
@@ -107,6 +134,8 @@ func _physics_process(delta):
 			
 			#Play Jumping animation here
 			
+			animation_player.play("Control_001")
+			
 			move_and_slide()
 			
 		PlayerStates.FALLING:
@@ -124,6 +153,7 @@ func _physics_process(delta):
 					jump_buffer = true
 					get_tree().create_timer(jump_buffer_time).timeout.connect(jump_buffer_disable)
 			
+			animation_player.play("Control_001")
 			
 			#fall faster than you jump in platformers
 			velocity.y -= gravity * delta * 2.5
@@ -134,12 +164,12 @@ func _physics_process(delta):
 		
 		PlayerStates.MINDCONTROLLING:
 			if currentMindControllee == null:
-				currentPlayerState = PlayerStates.IDLE
+				set_state(PlayerStates.IDLE)
 			else:
 				if currentMindControllee.velocity.y <= 4:
 					dashing = false
 				
-				
+				animation_player.play("Control_001")
 				control_enemy_lateral_movement()
 				check_ability()
 				position = currentMindControllee.slug_attach_point.global_position
@@ -207,6 +237,7 @@ func take_control_of_enemy(controlled_enemy: Enemy):
 
 	set_state(PlayerStates.MINDCONTROLLING)
 	currentMindControllee = controlled_enemy
+	currentMindControllee.setTeamPlayer()
 	position = currentMindControllee.slug_attach_point.global_position
 	currentMindControllee.take_control()
 
@@ -216,6 +247,7 @@ func lose_control_of_enemy():
 	if Input.is_action_just_pressed("jump"):
 		jump_available = false
 		currentMindControllee.lose_control()
+		currentMindControllee.setTeamEnemy()
 		currentMindControllee = null
 		var direction = (transform.basis * Vector3(0, 0, 1)).normalized()
 		var recoil_strength = 30

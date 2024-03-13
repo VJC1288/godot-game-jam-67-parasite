@@ -18,8 +18,8 @@ func take_damage(amount: int, from_location: Vector3):
 	if actor.has_method("recoil"):
 		actor.recoil(from_location)
 
-func set_team_enemy():
+func setTeamEnemy():
 	team = TeamEnum.ENEMY
 	
-func set_team_player():
+func setTeamPlayer():
 	team = TeamEnum.PlAYER

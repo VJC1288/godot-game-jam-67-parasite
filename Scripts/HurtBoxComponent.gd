@@ -20,11 +20,8 @@ func _on_area_entered(area):
 			area.take_damage(damage, global_position)
 
 
-func deal_damage(entity: CharacterBody3D):
-	pass
-
-func set_team_enemy():
+func setTeamEnemy():
 	team = TeamEnum.ENEMY
 	
-func set_team_player():
+func setTeamPlayer():
 	team = TeamEnum.PlAYER

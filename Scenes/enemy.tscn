@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://citbkd0mqp0rb"]
+[gd_scene load_steps=10 format=3 uid="uid://citbkd0mqp0rb"]
 
 [ext_resource type="Script" path="res://Scripts/enemy.gd" id="1_1fo1j"]
 [ext_resource type="Texture2D" uid="uid://dmhn4ywagh8uo" path="res://Assets/exclamation.png" id="2_4y7nx"]
 [ext_resource type="PackedScene" uid="uid://cblmp7va6vok7" path="res://Scenes/health_component.tscn" id="3_5ll2p"]
 [ext_resource type="PackedScene" uid="uid://ckvsnfn885361" path="res://Scenes/hurt_box_component.tscn" id="4_1ontr"]
+[ext_resource type="PackedScene" uid="uid://pd81rn3yuvqq" path="res://Scenes/hit_box_component.tscn" id="5_x83rm"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_pojn2"]
 size = Vector3(1, 2, 1)
@@ -55,6 +56,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.22127, 0)
 
 [node name="HurtBoxComponent" parent="." instance=ExtResource("4_1ontr")]
 team = 2
+
+[node name="HitBoxComponent" parent="." instance=ExtResource("5_x83rm")]
 
 [connection signal="body_entered" from="SightPivot/PlayerDetector" to="." method="_on_player_detector_body_entered"]
 [connection signal="body_exited" from="SightPivot/PlayerDetector" to="." method="_on_player_detector_body_exited"]
