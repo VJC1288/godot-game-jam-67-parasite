@@ -5,12 +5,12 @@ const LEVEL_2 = preload("res://Scenes/Levels/level_2.tscn")
 const LEVEL_3 = preload("res://Scenes/Levels/level_3.tscn")
 const LEVEL_4 = preload("res://Scenes/Levels/level_4.tscn")
 const LEVEL_5 = preload("res://Scenes/Levels/level_5.tscn")
-
+const LEVEL_6 = preload("res://Scenes/Levels/level_6.tscn")
 
 @export var starting_level: int
 
 #keep level 1 last for now until an end screen is set. this will cause game to loop back to level 1
-var level_array = [null, LEVEL_1, LEVEL_2, LEVEL_3, LEVEL_4, LEVEL_5, LEVEL_1]
+var level_array = [null, LEVEL_1, LEVEL_2, LEVEL_3, LEVEL_4, LEVEL_5,LEVEL_6, LEVEL_1]
 
 var current_level: Level = null
 

@@ -96,7 +96,6 @@ size = Vector2(1000, 1000)
 script = ExtResource("1_dmel5")
 
 [node name="LevelManager" parent="." instance=ExtResource("2_heikv")]
-starting_level = 5
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_1mhyv")
