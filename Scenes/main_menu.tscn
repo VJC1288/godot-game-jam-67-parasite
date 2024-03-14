@@ -1,0 +1,176 @@
+[gd_scene load_steps=4 format=3 uid="uid://dvvhot3utvlk"]
+
+[ext_resource type="FontFile" uid="uid://bdd87f8nbddhr" path="res://Resources/Creepster-Regular.ttf" id="1_1cvu4"]
+[ext_resource type="Script" path="res://Scripts/main_menu.gd" id="1_2y0hs"]
+[ext_resource type="FontFile" uid="uid://d4gaqeofq8r7t" path="res://Resources/Play-Regular.ttf" id="2_xk83w"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_2y0hs")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.190082, 0.280846, 0.221028, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0.560784, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0.27451, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 15
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("1_1cvu4")
+theme_override_font_sizes/font_size = 128
+text = "Attack of the 
+Brain Slugs!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 200
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 200
+theme_override_constants/margin_bottom = 50
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PlayButton" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer/VBoxContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("2_xk83w")
+theme_override_font_sizes/font_size = 50
+text = "Play"
+
+[node name="HowToPlayButton" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer/VBoxContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("2_xk83w")
+theme_override_font_sizes/font_size = 50
+text = "How to Play"
+
+[node name="HowToPlayWindow" type="MarginContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HowToPlayWindow"]
+layout_mode = 2
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_right = 60
+theme_override_constants/margin_bottom = 60
+
+[node name="Panel" type="Panel" parent="HowToPlayWindow/MarginContainer"]
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="HowToPlayWindow/MarginContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.231373, 0.356863, 0.231373, 0.870588)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HowToPlayWindow/MarginContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="HowToPlayWindow/MarginContainer/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HowToPlayTitle" type="Label" parent="HowToPlayWindow/MarginContainer/Panel/VBoxContainer/CenterContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_xk83w")
+theme_override_font_sizes/font_size = 56
+text = "How To Play"
+
+[node name="CenterContainer2" type="CenterContainer" parent="HowToPlayWindow/MarginContainer/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 5.0
+
+[node name="HowToPlayDescription" type="Label" parent="HowToPlayWindow/MarginContainer/Panel/VBoxContainer/CenterContainer2"]
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_xk83w")
+theme_override_font_sizes/font_size = 25
+text = "Control the  parasitic slug and mind control enemies to traverse the terrain. Use your abilities to your advantage to go from level to level.
+
+As Sluggy:
+Space or A: Jump
+Left Click or X: Mind Control
+
+While mind controlling:
+Space or A: Jump off
+Left Click or X: Activate ability
+
+Press R at any time to restart the level. However, this counts as a death! Strive for the lowest death count!
+"
+autowrap_mode = 3
+
+[node name="X Button" type="Button" parent="HowToPlayWindow/MarginContainer/Panel"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -32.0
+offset_bottom = 55.0
+grow_horizontal = 0
+theme_override_fonts/font = ExtResource("2_xk83w")
+theme_override_font_sizes/font_size = 40
+text = "X"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer/VBoxContainer3/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer/VBoxContainer3/HowToPlayButton" to="." method="_on_how_to_play_button_pressed"]
+[connection signal="pressed" from="HowToPlayWindow/MarginContainer/Panel/X Button" to="." method="_on_x_button_pressed"]

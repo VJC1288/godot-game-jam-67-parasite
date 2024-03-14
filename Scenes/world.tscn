@@ -22,8 +22,10 @@ sky = SubResource("Sky_40i84")
 tonemap_mode = 2
 glow_enabled = true
 fog_enabled = true
-fog_light_energy = 0.5
-fog_sky_affect = 0.25
+fog_light_energy = 0.4
+fog_sun_scatter = 0.1
+fog_aerial_perspective = 0.1
+fog_sky_affect = 0.2
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_oxkgv"]
 size = Vector3(2000, 3, 2000)
@@ -122,3 +124,4 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -30
 mesh = SubResource("QuadMesh_881y2")
 
 [connection signal="body_entered" from="DeathZone" to="DeathZone" method="_on_body_entered"]
+[connection signal="player_in_death_zone" from="DeathZone" to="LevelManager" method="restart_level"]

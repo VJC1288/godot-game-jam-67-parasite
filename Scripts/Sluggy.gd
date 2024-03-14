@@ -14,6 +14,7 @@ const Mind_Bullet_Scene = preload("res://Scenes/control_bullet.tscn")
 @onready var collision_shape_3d = $CollisionShape3D
 @onready var health_component = $HealthComponent
 @onready var animation_player = $Slug/AnimationPlayer
+@onready var death_label = %DeathLabel
 
 
 enum PlayerStates {IDLE = 1, MOVING, JUMPING, FALLING, MINDCONTROLLING}
@@ -35,18 +36,15 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 
 func _ready():
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	currentPlayerState = PlayerStates.IDLE
 
-		
+	currentPlayerState = PlayerStates.IDLE
+	death_label.text = "Death Count: " + str(Globals.death_count)
 	
 func _input(event):
 	
-	if event is InputEventKey:
-		if event.keycode == KEY_ESCAPE:
-			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+
 	
-	elif event is InputEventMouseMotion:
+	if event is InputEventMouseMotion:
 		cam_pivot.rotate_x(-event.relative.y * .005)
 		rotate_y(-event.relative.x * .005)
 
@@ -275,5 +273,7 @@ func jump_buffer_disable():
 	jump_buffer = false
 
 func die():
+	
+	Globals.death_count += 1
 	emit_signal("player_died")
-	queue_free()
+	call_deferred("queue_free")

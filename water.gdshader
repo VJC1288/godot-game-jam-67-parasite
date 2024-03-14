@@ -10,7 +10,7 @@ void fragment(){
 	vec4 water_noise2 = texture(noise2, UV + (TIME/105.0 * -offset));
 	vec4 water_color = texture(color, UV);
 	
-	vec3 first_color_out = mix((water_noise * water_noise2 * water_color).rgb, water_noise.rrr, 0.5);
+	vec3 first_color_out = mix((water_noise * water_noise2 * water_color).rgb, water_noise.rrr * water_noise2.rrr, 0.8);
 	
 	ALBEDO = first_color_out * water_color.rgb;
 	NORMAL = water_noise2.rgb;
