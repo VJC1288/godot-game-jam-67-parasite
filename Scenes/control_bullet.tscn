@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bn4lm5o16bkb7"]
+[gd_scene load_steps=11 format=3 uid="uid://bn4lm5o16bkb7"]
 
 [ext_resource type="Script" path="res://Scripts/control_bullet.gd" id="1_tsw7n"]
 [ext_resource type="Material" uid="uid://brcbt5mt0nm01" path="res://Resources/bullet_material.tres" id="2_yu17p"]
@@ -11,7 +11,13 @@ height = 0.5
 [sub_resource type="SphereShape3D" id="SphereShape3D_m5v8x"]
 radius = 0.25
 
+[sub_resource type="Curve" id="Curve_kynef"]
+min_value = -1.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
 [sub_resource type="CurveTexture" id="CurveTexture_hjqjf"]
+curve = SubResource("Curve_kynef")
 
 [sub_resource type="Curve" id="Curve_dbmpo"]
 _data = [Vector2(0.0245098, 0.076923), 0.0, 3.28791, 0, 0, Vector2(0.490196, 0.802198), 0.0, 0.0, 0, 0, Vector2(0.794118, 0.659341), 0.0, 0.0, 0, 0, Vector2(1, 0.032967), 0.0, 0.0, 0, 0]
