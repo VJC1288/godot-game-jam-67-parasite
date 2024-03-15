@@ -1,10 +1,11 @@
-[gd_scene load_steps=24 format=3 uid="uid://bn8wf1alygwmp"]
+[gd_scene load_steps=25 format=3 uid="uid://bn8wf1alygwmp"]
 
 [ext_resource type="Script" path="res://Scripts/world.gd" id="1_dmel5"]
 [ext_resource type="PackedScene" uid="uid://sw7vgcvxcacx" path="res://Scenes/level_manager.tscn" id="2_heikv"]
 [ext_resource type="Script" path="res://Scripts/DeathZone.gd" id="3_7qnup"]
 [ext_resource type="Shader" path="res://water.gdshader" id="4_ouswo"]
 [ext_resource type="Shader" path="res://dirt.gdshader" id="4_upfh0"]
+[ext_resource type="AudioStream" uid="uid://dhxcc5egei25u" path="res://Assets/Sounds/Hip Hop Outside.mp3" id="6_gthmv"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4p0om"]
 sky_top_color = Color(0.211765, 0.517647, 0.341176, 1)
@@ -122,6 +123,10 @@ mesh = SubResource("QuadMesh_qemkr")
 [node name="Ocean floor" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -30.6804, 0)
 mesh = SubResource("QuadMesh_881y2")
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_gthmv")
+volume_db = -15.0
 
 [connection signal="body_entered" from="DeathZone" to="DeathZone" method="_on_body_entered"]
 [connection signal="player_in_death_zone" from="DeathZone" to="LevelManager" method="restart_level"]

@@ -16,6 +16,8 @@ const Mind_Bullet_Scene = preload("res://Scenes/control_bullet.tscn")
 @onready var animation_player = $Slug/AnimationPlayer
 @onready var death_label = %DeathLabel
 
+@onready var squish_move = $SquishMove
+
 
 enum PlayerStates {IDLE = 1, MOVING, JUMPING, FALLING, MINDCONTROLLING}
 var currentPlayerState: PlayerStates
@@ -101,6 +103,9 @@ func _physics_process(delta):
 					jump()
 					jump_buffer = false	
 			
+			if !squish_move.playing:
+				squish_move.play()
+			
 			var input_dir = Input.get_vector("left", "right", "forward", "back")
 			if input_dir == Vector2.ZERO:
 				set_state(PlayerStates.IDLE)
@@ -177,6 +182,8 @@ func _physics_process(delta):
 			
 func set_state(new_state: PlayerStates):
 	currentPlayerState = new_state
+	if squish_move.playing:
+		squish_move.stop()
 
 
 func control_enemy_lateral_movement():

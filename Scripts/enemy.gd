@@ -13,6 +13,8 @@ enum EnumEnemyTypes {NONE = 0, NINJA = 1}
 @onready var hurt_box_component = $HurtBoxComponent
 @onready var hit_box_component = $HitBoxComponent
 
+@onready var footsteps = $Footsteps
+@onready var surprised = $Surprised
 
 
 @export var enemy_model: Node3D
@@ -68,6 +70,9 @@ func _physics_process(delta):
 			var direction: Vector3 = chaseTarget.global_position - global_position
 			direction = direction.normalized()
 			
+			if !footsteps.playing:
+					footsteps.play()
+			
 			velocity.x = direction.x * SPEED
 			velocity.z = direction.z * SPEED
 			velocity.y -= gravity * delta
@@ -78,6 +83,9 @@ func _physics_process(delta):
 			
 			if velocity != Vector3.ZERO:
 				enemy_animation_player.play("Run")
+				if !footsteps.playing:
+					footsteps.play()
+				
 			else:
 				enemy_animation_player.play("Idle")
 			
@@ -99,6 +107,7 @@ func _on_player_detector_body_entered(body):
 	#Starts chasing Player
 	if body.is_in_group("player"):
 		chaseTarget = body
+		surprised.play()
 		setMoveState(EnemyMoveStates.CHASING)
 		exclamation.visible = true
 

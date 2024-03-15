@@ -2,7 +2,7 @@ extends Area3D
 
 signal hit_enemy(enemy: Enemy)
 
-@export var SPEED = 10.0
+@export var SPEED = 5.0
 @export var bullet_lifetime = 0.2
 
 

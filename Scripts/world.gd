@@ -1,5 +1,6 @@
 extends Node3D
 
+@onready var music = $Music
 @onready var level_manager = $LevelManager
 const SLUGGY = preload("res://Scenes/sluggy.tscn")
 
@@ -33,4 +34,7 @@ func respawn_player():
 	level_manager.reset_player(player)
 	add_child(player)
 	level_manager.restart_level()
-	
+
+func _process(delta):
+	if !music.playing:
+		music.play()
